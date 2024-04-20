@@ -1,0 +1,187 @@
+public class valid_p{
+    public static void main(String[] args){
+        Stack s = new Stack();
+        boolean validated = validateMe("(5+2)");
+        System.out.println("(5+3):" + validateMe("(5+3) ") + " Postfix: " + postfix.infixToPostfix("(5+3)") + " Evaluation: " + postfixEvaluation.evaluatePostfix("53+"));
+        System.out.println("(5+3)*8+(2):" + validateMe("(5+3)*8+(2) ") + " Postfix: " + postfix.infixToPostfix("(5+3)*8+(2)") + " Evaluation: " + postfixEvaluation.evaluatePostfix("53+8*2+"));
+        System.out.println("(5+3)*((2+4)*3)):" + validateMe("(5+3)*((2+4)*3)) ") + " Parentheses are not valid!");
+        System.out.println("(((4))):" + validateMe("(((4))) ") + " Postfix: " + postfix.infixToPostfix("(((4)))") + " Evaluation: " + postfixEvaluation.evaluatePostfix("4"));
+        System.out.println("(1/2)*(2+3)/2:" + validateMe("(1/2)*(2+3)/2 ") + " Postfix: " + postfix.infixToPostfix("(1/2)*(2+3)/2") + " Evaluation: " + postfixEvaluation.evaluatePostfix("12/23+*2/"));
+        System.out.println("(2+3)*(8*9)/2):" + validateMe("(2+3)*(8*9)/2) ") + " Parentheses are not valid!");
+        System.out.println("((2+3)*((8*9)/2):" + validateMe("((2+3)*((8*9)/2) ") + " Parentheses are not valid!");
+        System.out.println("(2+3)*((8*9)/2):" + validateMe("(2+3)*((8*9)/2) ") + " Postfix: " + postfix.infixToPostfix("(2+3)*((8*9)/2)") + " Evaluation: " + postfixEvaluation.evaluatePostfix("23+89*2/*"));
+
+        
+
+    }
+    static boolean validateMe(String eq){
+        boolean isGood = true;
+        Stack s = new Stack();
+        int j;
+        char c;
+        s.init();
+        for(j=0;j<eq.length();j++){
+            c = eq.charAt(j);
+            if(c=='('){
+                s.push(c);
+            }
+            else if(c==')'){
+                if(s.isItEmpty()==true){
+                    isGood = false;
+                }
+                else{
+                    s.pop();
+                }
+            }
+           
+        } 
+         if(s.isItEmpty()==false){
+                isGood = false;
+            }
+         return isGood;  
+    } 
+    
+}
+
+
+class Stack{
+    int top;
+    char[] s = new char[52];
+    void init(){
+        top = -1;
+    }
+    void push(char c){
+        top++;
+        s[top] = c;
+    }
+    char pop(){
+        char c;
+        c = s[top];
+        top--;
+        return c;
+    }
+    char peek(){
+        return s[top];
+    }
+    
+    boolean isItEmpty(){
+        boolean answer = false;
+        if(top == -1){
+            answer = true;
+        }
+        return answer;
+    }
+    void showStack(){
+        int j;
+        for(j=0;j<=top;j++){
+            System.out.print(s[j]);
+        }
+    }
+    void testMe(String test){
+        int j;
+        init();
+        for(j=0;j<test.length();j++){
+            push(test.charAt(j));
+        }
+        showStack();
+        while(isItEmpty() == false){
+            System.out.print(pop());
+        }
+    }
+}
+class postfix{
+    public static int operators(char x){
+        if( x =='*' || x == '/'){
+            return 1;
+        }
+        else if(x == '+' || x == '-'){
+            return 0;
+        }
+        return -1;
+    }
+     public static String infixToPostfix(String st){
+        Stack stk = new Stack();
+        String ans="";
+        for(int i=0;i<st.length();i++){
+            char x = st.charAt(i);
+            if(x > '0' && x <= '9'){
+                ans+=x;
+            }
+            else if(x == '('){
+                stk.push('(');
+            }
+            else if(x == ')'){
+                while(!stk.isItEmpty() && stk.peek() != '('){
+                    ans += stk.pop();
+                }
+                if(!stk.isItEmpty()){
+                stk.pop();
+                }
+        }
+            else{
+                while(!stk.isItEmpty() && operators(stk.peek())>= operators(x)){   
+                        ans+=stk.pop();
+                }
+                stk.push(x);
+        }
+    }
+        while(!stk.isItEmpty()){
+            ans+=stk.pop();
+        }
+        return ans;
+
+    }
+}
+class postfixEvaluation{
+    static boolean isOperator(char cha){
+      if(cha == '+' || cha == '-' || cha == '*' || cha == '/')
+        return true;
+      else{
+          return false;
+      }
+  }
+    static int evaluatePostfix(String ex){
+        Stack postFix1 = new Stack();
+        for(int k=0;k<ex.length();k++){
+            if(isOperator(ex.charAt(k))){
+                int result;
+                int op1 = postFix1.pop();
+                int op2 = postFix1.pop();
+                  
+                switch(ex.charAt(k)){
+                    case '+': 
+                        result = op2 + op1;
+                        char r = (char)result;
+                        postFix1.push(r);
+                          break;
+                          
+                    case '-':
+                        result = op2 - op1;
+                        char g = (char)result;
+                        postFix1.push(g);
+                          break;
+                          
+                    case '*': 
+                        result = op2 * op1;
+                        char d = (char)result;
+                        postFix1.push(d);
+                          break;
+                    
+                    case '/':
+                        result = op2 / op1;
+                        char p = (char)result;
+                        postFix1.push(p);
+                          break;
+                        
+            }
+        }
+            else{
+                int operand = ex.charAt(k) - '0';
+                char overThis = (char)operand;
+                postFix1.push(overThis);
+            }
+        }
+        return postFix1.pop();
+        
+    }
+}
