@@ -1,0 +1,36 @@
+import pandas as pd
+
+column = ['Here']
+
+df = pd.read_csv('Desktop/names.csv', header = None, names = column)
+
+df["index"] = df["Here"].apply(lambda x: x[:3])
+
+# Create a hash table that sorts all of the names alphabetically
+hashTable = {}
+for name in df["Here"]:
+    index = name[:3]
+    if index not in hashTable:
+        hashTable[index] = [name]
+    else:
+        hashTable[index].append(name)
+
+sortedTable = {index: sorted(names) for index, names in hashTable.items()}
+sortedTable = dict(sorted(sortedTable.items()))
+
+for index, names in sortedTable.items():
+    print(f"{index}: {', '.join(names)}")
+
+# Count the number of collisions for different table sizes
+for size in range(200, 201):
+    collisionCount = 0
+    hashTable = {}
+    for name in df["Here"]:
+        index = name[:3]
+        hashIndex = hash(index) % size
+        if hashIndex not in hashTable:
+            hashTable[hashIndex] = [name]
+        else:
+            hashTable[hashIndex].append(name)
+            collisionCount += 1
+    print("Table size:", size, "Number of collisions:", collisionCount)
