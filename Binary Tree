@@ -1,0 +1,80 @@
+#Kody Chabaud
+#Dr. McDowell
+#CMPS 390
+#Binary Tree vs. Bubble Sorts
+
+# All code was done in python for this assignment and only used the pandas package to read in # the file. File was also converted to a csv file to make code simpler. 
+
+
+
+import pandas as pd
+
+BEEGdata = pd.read_csv("Desktop/numbers.csv")
+
+class treeNode: 
+    
+    def __init__(root, data):
+        root.left = None
+        root.right = None
+        root.data = data
+# inserting Node
+    def insert(root, data):
+        
+        if root.data:
+            if data < root.data:
+                if root.left is None:
+                    root.left = treeNode(data)
+                else: 
+                    root.left.insert(data)
+            elif data > root.data:
+                if root.right is None:
+                    root.right = treeNode(data)
+                else: 
+                    root.right.insert(data)
+        else: 
+            root.data = data
+
+#Print tree
+    def printTree(root):
+        if root.left:
+            root.left.printTree()
+        print(root.data)
+        if root.right:
+            root.right.printTree()
+
+#inOrder Traversal of Numbers
+    def inorderTraversal(root, here):
+        res = []
+        if here:
+            res = root.inorderTraversal(here.left)
+            res.append(here.data)
+            res = res + root.inorderTraversal(here.right)
+        return res
+
+here = None
+for val in BEEGdata.values.flatten():
+    if here is None:
+        here = treeNode(val)
+    else:
+        here.insert(val)
+here.inorderTraversal(here)
+
+
+
+#print out number of occurrences of each value
+duplicates = BEEGdata[BEEGdata.duplicated(keep=False)]
+counts = duplicates.value_counts()
+print(counts) 
+
+
+#number of comparisons made for binary tree sorting
+def inorder(here, count):
+    if here:
+        count = inorder(here.left, count)
+        count += 1  # Increment count for every comparison made
+        count = inorder(here.right, count)
+    return count
+
+
+count = inorder(here, 0)
+print("Number of comparisons made:", count)
