@@ -1,0 +1,26 @@
+#include <iostream>
+// Kody Chabaud
+//W0709107
+//CMPS 390 - Program 0
+using namespace std;
+
+int main() {
+//#1: 
+    int j;
+    //part a: declaring 1d array, size 10
+    int array[10];
+    //part b: filling array with consecutive #'s starting at 0'
+    for(j=0;j<10;j++){
+        array[j] = j;
+        //part c: print out contents of array. 
+        printf("\n%d\n", array[j]);
+    }
+    printf("\n");
+    //part d: use pointer method to list consecutive numbers starting at 100
+    int myptr = *array;
+    for(j=0;j<10;j++){
+        myptr = j+100;
+        //part e: prints out the 10 consecutive values starting at 100
+        printf("\n%d\n", myptr);
+    }
+}
