@@ -1,0 +1,31 @@
+//Recursion Summation: 
+
+public class MyClass {
+    public static void main(String args[]) {
+        System.out.println(num(3,0));//print line that uses the recursive system based on the first number entered starting from the second number. 
+    }
+    public static int num(int n, int sum) {
+        if (n == 0) {
+            return sum;// when zero, returns 0+0 = 0
+        }
+        else{
+        sum += n;
+        return num(n - 1, sum); //when greater than zero, adds all terms between first number and zero, returning summation 
+        }
+    }
+}
+
+//Iterative Summation: 
+
+public class MyClass {
+    public static void main(String args[]) {
+     int num = 10;// set number that we want to be limited 
+     int i;//used to set our for loop
+     int sum = 0;//start out at 0
+     for(i = 0;i <= num; i++){
+         sum = sum +i;//for loop that adds starting from 0 each number of i value. 
+         System.out.println("sum after adding " + i + " is: " + sum);
+     }
+     System.out.println();
+    }
+}
