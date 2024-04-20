@@ -1,0 +1,59 @@
+ //#3
+
+ #include <stdio.h>
+ #include <stdlib.h>
+
+ void showRow(int *two_d, int rowNumber, int nColsInRow);
+ void showCol(int *two_d, int colNumber, int nRowsInCol);
+
+ int main(void){
+    
+    int N = 10;
+    int M = 10;
+    int two_d[N][M]; // two dimensional array of size NxM
+    int row,col;
+    int *k;
+    int add = 0;
+
+    k = (int *)two_d; //Set a pointer point to this array.
+
+   for(row = 0; row < 10; row++){ //for loop to designate the values within the 2 dim array
+       for(col = 0; col < 10; col++){   
+           two_d[row][col]= add;
+           add++;
+       }
+   }
+
+
+  for(row = 0; row < 10; row++){ 
+      for(col = 0; col < 10; col++){
+         printf("%d ", two_d[row][col]);
+      }
+      printf(" \n");
+  }
+  
+  showRow( k, 4, 2); //pulls all values on the fourth row and shows the exact point at (4,2)
+  showCol( k, 3, 6); // pulls all values of the third column and shows the exact point at (3,6)
+}
+
+void showRow(int *two_d, int rowNumber, int nColsInRow){
+    int *row = &two_d[rowNumber*10]; //row points at the particular row.
+    int j;
+
+    for(j = 0; j < 10; j++){ //for loop that designates to pull a specific row upon command.
+        printf(" %d", row[j]);
+    }
+    printf("\n%d\n", row[nColsInRow]);
+} 
+
+void showCol(int *two_d, int colNumber, int nRowsInCol){
+    int *col = &two_d[colNumber];  //col points at specific column of the first row
+    int j, n;
+
+  for(j = 0; j < 100; j = j + 10){  //Increment 10 since row size is 10. Pulls a specific column upon command. 
+    printf(" %d", col[j]);
+  }
+  n = 10 * nRowsInCol;
+  printf( "\n%d\n", col[n]);
+
+ }
