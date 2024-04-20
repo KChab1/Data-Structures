@@ -1,0 +1,19 @@
+import pandas as pd
+
+McGoat = pd.read_csv("Desktop/numbers.csv", header = None)
+
+def bubbleSort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+
+McGoat.drop_duplicates(inplace=True)
+
+BEEGvalues = McGoat.values.tolist()
+
+bubbleSort(BEEGvalues)
+
+McDownBad = pd.DataFrame(BEEGvalues, columns=df.columns)
+print(McDownBad)
