@@ -1,0 +1,81 @@
+# Code was written in Python for this assignment #
+
+class Node: 
+    
+     def __init__(this, data=None):
+         this.data = data
+         this.next = None
+         
+class myLinkedList:
+    
+    def __init__(this):
+        this.front = None
+        
+    def atBeginning(this, data_in):
+      NewNode = Node(data_in)
+      NewNode.next = this.front
+      this.front = NewNode
+        
+    def inBetween(this, midNode, newdata):
+        if midNode is None:
+            print("Node is empty")
+            return
+        NewNode = Node(newdata)
+        NewNode.next = midNode.next
+        midNode.next = NewNode
+        
+    def removeNode(this, removeKey):
+        frontVal = this.front
+        if (frontVal is not None):
+            if(frontVal.data == removeKey):
+                this.front = frontVal.next
+                frontVal = None
+                return
+        while (frontVal is not None):
+            if frontVal.data == removeKey:
+                break
+            prev = frontVal
+            frontVal = frontVal.next
+        if (frontVal == None):
+            return
+        prev.next = frontVal.next
+        frontVal = None
+        
+    def printList(this):
+        printval = this.front
+        while printval is not None: 
+            print(printval.data)
+            printval = printval.next
+            
+list = myLinkedList()
+list.frontval = Node("1")
+a2 = Node("2")
+a3 = Node("3")
+a4 = Node("4")
+a5 = Node("5")
+a6 = Node("6")
+a7 = Node("7")
+a8 = Node("8")
+a9 = Node("9")
+
+list.frontval.nextval = a2
+a2.next = a3
+a3.next = a4
+a4.next = a5
+a5.next = a6
+a6.next = a7
+a7.next = a8
+a8.next = a9
+
+
+list.atBeginning("9")
+list.atBeginning("8")
+list.atBeginning("7")
+list.atBeginning("6")
+list.atBeginning("5")
+list.atBeginning("4")
+list.atBeginning("3")
+list.atBeginning("2")
+list.atBeginning("1")
+
+list.printList()
