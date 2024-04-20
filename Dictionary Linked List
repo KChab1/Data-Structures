@@ -1,0 +1,107 @@
+import pandas as pd
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        
+    def addNode(self, data):
+        newNode = Node(data)
+        if self.head is None:
+            self.head = newNode
+        else:
+            curr = self.head
+            while curr.next is not None and curr.next.data < data:
+                curr = curr.next
+            newNode.next = curr.next
+            curr.next = newNode
+    
+    def deleteNode(self, data):
+        if self.head is None:
+            return
+        
+        if self.head.data == data:
+            self.head = self.head.next
+            return
+        
+        curr = self.head
+        while curr.next is not None:
+            if curr.next.data == data:
+                curr.next = curr.next.next
+                return
+            curr = curr.next
+    
+    def printList(self):
+        curr = self.head
+        while curr is not None:
+            print(curr.data)
+            curr = curr.next
+        
+def main():
+    df = pd.read_csv('Desktop/names.csv')
+    linkedLists = {}
+    
+    for name in df['joe']:
+        index = name[:3].lower()
+        if index in linkedLists:
+            linkedLists[index].addNode(name)
+        else:
+            linkedLists[index] = LinkedList()
+            linkedLists[index].addNode(name)
+    
+    while True:
+        print()
+        print("Menu:")
+        print("1. Display list")
+        print("2. Delete name")
+        print("3. Print section of list")
+        print("4. Quit")
+        
+        choice = input("Enter your choice: ")
+        
+        if choice == '1':
+            for index in sorted(linkedLists.keys()):
+                linkedLists[index].printList()
+        elif choice == '2':
+            name = input("Enter the name to delete: ")
+            index = name[:3].lower()
+            if index in linkedLists:
+                linkedLists[index].deleteNode(name)
+        elif choice == '3':
+            start = input("Enter the starting index: ")
+            end = input("Enter the ending index: ")
+            startIndex = start[:3].lower()
+            endIndex = end[:3].lower()
+            if startIndex in linkedLists and endIndex in linkedLists:
+                if startIndex == endIndex:
+                    print(f"---{startIndex.upper()}---")
+                    current = linkedLists[startIndex].head
+                    while curr is not None and curr.data < start:
+                        curr = curr.next
+                    while curr is not None and curr.data <= end:
+                        print(curr.data)
+                        curr = curr.next
+                else:
+                    print(f"---{startIndex.upper()}---")
+                    current = linkedLists[startIndex].head
+                    while curr is not None:
+                        if curr.data >= start:
+                            print(curr.data)
+                        curr = curr.next
+                    for index in sorted(linkedLists.keys()):
+                        if index > startIndex and index < endIndex:
+                            print(f"---{index.upper()}---")
+                            linkedLists[index].printList()
+                    print(f"---{endIndex.upper()}---")
+                    curr = linkedLists[endIndex].head
+                    while curr is not None and curr.data <= end:
+                        print(curr.data)
+                        curr = curr.next
+        elif choice == '4':
+            break
+    
+main()
